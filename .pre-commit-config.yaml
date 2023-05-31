@@ -25,6 +25,13 @@
         args: ['--dialect=tsql', '--exclude_rules=L016,L031']
     -   id: sqlfluff-lint
         args: ['--dialect=tsql', '--exclude_rules=L016,L031']
+-   repo: https://github.com/jazzband/pip-tools
+    rev: '6.13.0'
+    hooks:
+    -   id: pip-compile
+        name: pip-compile pyproject.toml
+        args: ['pyproject.toml', '--allow-unsafe', '--resolver=backtracking']
+        files: ^(pyproject\.toml|requirements\.txt)$
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.4.0'
     hooks:
