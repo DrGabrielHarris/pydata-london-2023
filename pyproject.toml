@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "Template"
+version = "1.0"
+description = "A template to start a project."
+readme = "README.md"
+requires-python = "==3.9.*"
+
+dependencies = [
+    "pandas",
+    "xlrd",
+    ]
+
+[project.optional-dependencies]
+dev = [
+    "ipykernel",
+    "ipython",
+    ]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = "D100,D101,D102,D103,D104,D105,D106,D107"
+
+[tool.ruff]
+line-length = 88
+
+[tool.sqlfluff.core]
+dialect = "tsql"
+exclude_rules = "L016,L031"
+max_line_length = 88
+
