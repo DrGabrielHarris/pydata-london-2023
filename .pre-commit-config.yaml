@@ -19,7 +19,7 @@
     hooks:
     -   id: ruff
 -   repo: https://github.com/sqlfluff/sqlfluff
-    rev: '2.1.0'
+    rev: '2.1.1'
     hooks:
     -   id: sqlfluff-fix
         args: ['--dialect=tsql', '--exclude_rules=L016,L031']
@@ -34,4 +34,3 @@
     -   id: check-yaml
     -   id: check-toml
     -   id: check-json
-
