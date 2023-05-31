@@ -1,0 +1,37 @@
+﻿repos:
+-   repo: https://github.com/psf/black
+    rev: '23.3.0'
+    hooks:
+    -   id: black
+    -   id: black-jupyter
+-   repo: https://github.com/PyCQA/isort
+    rev: '5.12.0'
+    hooks:
+    -   id: isort
+        args: ['--profile=black']
+-   repo: https://github.com/pycqa/pydocstyle
+    rev: '6.3.0'
+    hooks:
+    -   id: pydocstyle
+        args: ['--add-ignore=D100,D101,D102,D103,D104,D105,D106,D107', '--convention=google']
+-   repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.270'
+    hooks:
+    -   id: ruff
+-   repo: https://github.com/sqlfluff/sqlfluff
+    rev: '2.1.0'
+    hooks:
+    -   id: sqlfluff-fix
+        args: ['--dialect=tsql', '--exclude_rules=L016,L031']
+    -   id: sqlfluff-lint
+        args: ['--dialect=tsql', '--exclude_rules=L016,L031']
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 'v4.4.0'
+    hooks:
+    -   id: check-ast
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: check-yaml
+    -   id: check-toml
+    -   id: check-json
+
