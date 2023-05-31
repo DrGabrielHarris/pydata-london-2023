@@ -12,7 +12,7 @@ venv: $(GLOBAL_PYTHON)
 	- deactivate
 	${GLOBAL_PYTHON} -m venv .venv
 
-## Install dependencies
+## Install & sync dependencies
 install: ${LOCAL_PYTHON}
 	@echo "Installing dependencies..."
 	${LOCAL_PYTHON} -m pip install --upgrade pip
