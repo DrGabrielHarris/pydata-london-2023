@@ -6,8 +6,6 @@ LOCAL_PYTHON = .venv\\Scripts\\python.exe
 LOCAL_PIP_COMPILE = .venv\\Scripts\\pip-compile.exe
 LOCAL_PIP_SYNC = .venv\\Scripts\\pip-sync.exe
 
-setup: venv install pre-commit
-
 ## Create an empty environment
 venv: $(GLOBAL_PYTHON)
 	@echo "Creating .venv..."
@@ -35,11 +33,13 @@ upgrade: ${LOCAL_PYTHON} ${LOCAL_PIP_COMPILE}
 	${LOCAL_PYTHON} -m pip install --upgrade pip
 	${LOCAL_PIP_COMPILE} --upgrade requirements-dev.txt --pip-args "--no-cache-dir"
 
-## Setting up pre-commit hooks
+## Install pre-commit hooks
 pre-commit:
 	@echo "Setting up pre-commit..."
 	pre-commit install
 	pre-commit autoupdate
+
+setup: venv install pre-commit
 
 ## Running checks
 check: ${LOCAL_PYTHON}
@@ -56,3 +56,5 @@ clean:
 	if exist .git\\hooks ( rmdir .git\\hooks /q /s )
 	- deactivate
 	if exist .venv\\ ( rmdir .venv /q /s )
+
+
