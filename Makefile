@@ -1,8 +1,10 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: venv install pre-commit update checks clean
+.PHONY: venv install update upgrade pre-commit check clean
 
 GLOBAL_PYTHON = $(shell py -3.9 -c 'import sys; print(sys.executable)')
 LOCAL_PYTHON = .venv\\Scripts\\python.exe
+LOCAL_PIP_COMPILE = .venv\\Scripts\\pip-compile.exe
+LOCAL_PIP_SYNC = .venv\\Scripts\\pip-sync.exe
 
 setup: venv install pre-commit
 
@@ -17,24 +19,30 @@ install: ${LOCAL_PYTHON}
 	@echo "Installing dependencies..."
 	${LOCAL_PYTHON} -m pip install --upgrade pip
 	${LOCAL_PYTHON} -m pip install pip-tools
-	.venv\\Scripts\\pip-compile pyproject.toml --output-file requirements.txt --resolver=backtracking --allow-unsafe
-	.venv\\Scripts\\pip-compile pyproject.toml --output-file requirements-dev.txt --resolver=backtracking --allow-unsafe --extra dev
-	.venv\\Scripts\\pip-sync requirements-dev.txt --pip-args "--no-cache-dir"
+	${LOCAL_PIP_COMPILE} pyproject.toml --output-file requirements.txt --resolver=backtracking --allow-unsafe
+	${LOCAL_PIP_COMPILE} pyproject.toml --output-file requirements-dev.txt --resolver=backtracking --allow-unsafe --extra dev
+	${LOCAL_PIP_SYNC} requirements-dev.txt --pip-args "--no-cache-dir"
+
+## Update dependencies
+update: ${LOCAL_PYTHON} ${LOCAL_PIP_SYNC}
+	@echo "Updating dependencies..."
+	${LOCAL_PYTHON} -m pip install --upgrade pip
+	${LOCAL_PIP_SYNC} requirements-dev.txt --pip-args "--no-cache-dir"
+
+## Upgrade dependencies
+upgrade: ${LOCAL_PYTHON} ${LOCAL_PIP_COMPILE}
+	@echo "Upgrading dependencies..."
+	${LOCAL_PYTHON} -m pip install --upgrade pip
+	${LOCAL_PIP_COMPILE} --upgrade requirements-dev.txt --pip-args "--no-cache-dir"
 
 ## Setting up pre-commit hooks
-pre-commit: ${LOCAL_PYTHON}
+pre-commit:
 	@echo "Setting up pre-commit..."
 	pre-commit install
 	pre-commit autoupdate
 
-## Update dependencies
-update: ${LOCAL_PYTHON}
-	@echo "Updating dependencies..."
-	${LOCAL_PYTHON} -m pip install --upgrade pip
-	.venv\\Scripts\\pip-sync requirements-dev.txt --pip-args "--no-cache-dir"
-
 ## Running checks
-checks: ${LOCAL_PYTHON}
+check: ${LOCAL_PYTHON}
 	@echo "Running checks..."
 	ruff check --fix .
 	isort .
