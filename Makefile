@@ -21,9 +21,9 @@ install: ${LOCAL_PYTHON}
 	${LOCAL_PIP_COMPILE} pyproject.toml --output-file requirements-dev.txt --resolver=backtracking --allow-unsafe --extra dev
 	${LOCAL_PIP_SYNC} requirements-dev.txt --pip-args "--no-cache-dir"
 
-## Update dependencies
-update: ${LOCAL_PYTHON} ${LOCAL_PIP_SYNC}
-	@echo "Updating dependencies..."
+## Sync dependencies
+sync: ${LOCAL_PYTHON} ${LOCAL_PIP_SYNC}
+	@echo "Syncing dependencies..."
 	${LOCAL_PYTHON} -m pip install --upgrade pip
 	${LOCAL_PIP_SYNC} requirements-dev.txt --pip-args "--no-cache-dir"
 
@@ -31,7 +31,7 @@ update: ${LOCAL_PYTHON} ${LOCAL_PIP_SYNC}
 upgrade: ${LOCAL_PYTHON} ${LOCAL_PIP_COMPILE}
 	@echo "Upgrading dependencies..."
 	${LOCAL_PYTHON} -m pip install --upgrade pip
-	${LOCAL_PIP_COMPILE} --upgrade requirements-dev.txt --pip-args "--no-cache-dir"
+	${LOCAL_PIP_COMPILE} --upgrade --output-file requirements.txt --resolver=backtracking --allow-unsafe
 
 ## Install pre-commit hooks
 pre-commit:
