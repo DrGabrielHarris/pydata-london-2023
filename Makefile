@@ -19,6 +19,7 @@ install: ${LOCAL_PYTHON}
 	${LOCAL_PYTHON} -m pip install pip-tools
 	${LOCAL_PIP_COMPILE} pyproject.toml --output-file requirements.txt --resolver=backtracking --allow-unsafe
 	${LOCAL_PIP_COMPILE} pyproject.toml --output-file requirements-dev.txt --resolver=backtracking --allow-unsafe --extra dev
+	@echo "Syncing dependencies..."
 	${LOCAL_PIP_SYNC} requirements-dev.txt --pip-args "--no-cache-dir"
 
 ## Sync dependencies
@@ -56,5 +57,3 @@ clean:
 	if exist .git\\hooks ( rmdir .git\\hooks /q /s )
 	- deactivate
 	if exist .venv\\ ( rmdir .venv /q /s )
-
-
