@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: venv install update upgrade pre-commit check clean
+.PHONY: venv install sync upgrade pre-commit check clean
 
 GLOBAL_PYTHON = $(shell py -3.9 -c 'import sys; print(sys.executable)')
 LOCAL_PYTHON = .venv\\Scripts\\python.exe
